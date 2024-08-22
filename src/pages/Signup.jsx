@@ -15,13 +15,16 @@ const Signup = () => {
       enqueueSnackbar({ message: "Passwords Does'nt Match", variant: "error" });
       return;
     }
-    const response = await fetch("https://crudauthbackend.glitch.me/", {
-      method: "POST",
-      body: JSON.stringify({ email: data.email, password: data.password }),
-      headers: {
-        "content-type": "application/json",
-      },
-    });
+    const response = await fetch(
+      "https://crudauthbackend.glitch.me/api/auth/register",
+      {
+        method: "POST",
+        body: JSON.stringify({ email: data.email, password: data.password }),
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    );
     const json = await response.json();
     enqueueSnackbar({
       message: json.message,

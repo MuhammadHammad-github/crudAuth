@@ -11,13 +11,16 @@ const Login = () => {
     formData.forEach((value, key) => {
       data[key] = value;
     });
-    const response = await fetch("https://crudauthbackend.glitch.me/", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "content-type": "application/json",
-      },
-    });
+    const response = await fetch(
+      "https://crudauthbackend.glitch.me/api/auth/login",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    );
     const json = await response.json();
     enqueueSnackbar({
       message: json.message,

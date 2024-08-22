@@ -7,12 +7,15 @@ const Home = () => {
   const [toggled, setToggled] = useState();
   const navigate = useNavigate();
   const getUserData = async (authToken) => {
-    const response = await fetch("https://crudauthbackend.glitch.me/", {
-      headers: {
-        "content-type": "application/json",
-        authToken: authToken,
-      },
-    });
+    const response = await fetch(
+      "https://crudauthbackend.glitch.me/api/auth/user",
+      {
+        headers: {
+          "content-type": "application/json",
+          authToken: authToken,
+        },
+      }
+    );
     const json = await response.json();
     if (!response.ok) {
       enqueueSnackbar({ message: json.message, variant: "error" });
@@ -33,17 +36,20 @@ const Home = () => {
       console.log(key);
       data[key] = value;
     });
-    const response = await fetch("https://crudauthbackend.glitch.me/", {
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        ...data,
-        password: data.currentPassword,
-        email: user.email,
-      }),
-    });
+    const response = await fetch(
+      "https://crudauthbackend.glitch.me/api/auth/updatePassword",
+      {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          ...data,
+          password: data.currentPassword,
+          email: user.email,
+        }),
+      }
+    );
     const json = await response.json();
     enqueueSnackbar({
       message: json.message,
