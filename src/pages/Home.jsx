@@ -74,6 +74,23 @@ const Home = () => {
     localStorage.removeItem("authToken");
     navigate("/login");
   };
+  const deleteAccount = async () => {
+    const response = await fetch(
+      "https://crudauthbackend.glitch.me/api/auth/deleteUser",
+      {
+        headers: {
+          "content-type": "application/json",
+          id: user._id,
+        },
+      }
+    );
+    const json = await response.json();
+    enqueueSnackbar({
+      message: json.message,
+      variant: response.ok ? "success" : "error",
+    });
+    if (response.ok) navigate("/login");
+  };
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="bg-slate-800   flex flex-col items-center gap-5 text-white shadow p-10 rounded">
@@ -125,6 +142,14 @@ const Home = () => {
         >
           Cancel
         </button>{" "}
+        <button
+          onClick={deleteAccount}
+          className={`${
+            toggled && "hidden"
+          } btn  bg-white text-black font-medium transitional hover:bg-transparent hover:text-white border border-white`}
+        >
+          Delete Account
+        </button>
         <button
           onClick={logout}
           className={`${
