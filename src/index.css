@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.transitional {
+  @apply transition-all duration-300 ease-in-out;
+}
+.transitional:hover {
+  @apply transition-all duration-300 ease-in-out;
+}
+.btn {
+  @apply py-2 px-7 rounded;
+}
+.btn1 {
+  @apply bg-slate-700 text-white transition-all border duration-200 border-slate-700;
+}
+.btn1:hover {
+  @apply text-slate-700 bg-transparent transition-all;
+}
+.respPx20 {
+  @apply 900px:px-20 700px:px-16 550px:px-10 400px:px-5 px-3;
+}

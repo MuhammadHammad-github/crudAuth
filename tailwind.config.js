@@ -1,0 +1,41 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        black: "#000",
+        sunsetOrange: "#FB5C42",
+        gray: "#757575",
+        lightGray: "#f1f1f1",
+        borderColor: "#dee2e6",
+      },
+      screens: {
+        "1400px": "1400px",
+        "1350px": "1350px",
+        "1300px": "1300px",
+        "1250px": "1250px",
+        "1200px": "1200px",
+        "1150px": "1150px",
+        "1100px": "1100px",
+        "1050px": "1050px",
+        "1000px": "1000px",
+        "950px": "950px",
+        "900px": "900px",
+        "850px": "850px",
+        "800px": "800px",
+        "750px": "750px",
+        "700px": "700px",
+        "650px": "650px",
+        "600px": "600px",
+        "550px": "550px",
+        "500px": "500px",
+        "450px": "450px",
+        "400px": "400px",
+        "350px": "350px",
+        "320px": "320px",
+      },
+    },
+  },
+  plugins: [],
+};
