@@ -7,21 +7,26 @@ const Home = () => {
   const [toggled, setToggled] = useState();
   const navigate = useNavigate();
   const getUserData = async (authToken) => {
-    const response = await fetch(
-      "https://crudauthbackend.glitch.me/api/auth/user",
-      {
-        headers: {
-          "content-type": "application/json",
-          authToken: authToken,
-        },
+    try {
+      const response = await fetch(
+        "https://crudauthbackend.glitch.me/api/auth/user",
+        {
+          headers: {
+            "content-type": "application/json",
+            authToken: authToken,
+          },
+        }
+      );
+      const json = await response.json();
+      if (!response.ok) {
+        enqueueSnackbar({ message: json.message, variant: "error" });
+        return;
       }
-    );
-    const json = await response.json();
-    if (!response.ok) {
-      enqueueSnackbar({ message: json.message, variant: "error" });
-      return;
+      setUser(json.user);
+    } catch (error) {
+      console.log(error.message);
+      console.error(error);
     }
-    setUser(json.user);
   };
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
@@ -29,35 +34,40 @@ const Home = () => {
   }, []);
   const toggle = () => setToggled((prev) => !prev);
   const updatePassword = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = {};
-    formData.forEach((value, key) => {
-      console.log(key);
-      data[key] = value;
-    });
-    const response = await fetch(
-      "https://crudauthbackend.glitch.me/api/auth/updatePassword",
-      {
-        method: "PUT",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          ...data,
-          password: data.currentPassword,
-          email: user.email,
-        }),
+    try {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = {};
+      formData.forEach((value, key) => {
+        console.log(key);
+        data[key] = value;
+      });
+      const response = await fetch(
+        "https://crudauthbackend.glitch.me/api/auth/updatePassword",
+        {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            ...data,
+            password: data.currentPassword,
+            email: user.email,
+          }),
+        }
+      );
+      const json = await response.json();
+      enqueueSnackbar({
+        message: json.message,
+        variant: response.ok ? "success" : "error",
+      });
+      if (response.ok) {
+        setToggled(false);
+        e.target.reset();
       }
-    );
-    const json = await response.json();
-    enqueueSnackbar({
-      message: json.message,
-      variant: response.ok ? "success" : "error",
-    });
-    if (response.ok) {
-      setToggled(false);
-      e.target.reset();
+    } catch (error) {
+      console.log(error.message);
+      console.error(error);
     }
   };
   const logout = () => {

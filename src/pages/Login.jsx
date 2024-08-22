@@ -5,32 +5,36 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = {};
-    formData.forEach((value, key) => {
-      data[key] = value;
-    });
-    const response = await fetch(
-      "https://crudauthbackend.glitch.me/api/auth/login",
-      {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "content-type": "application/json",
-        },
+    try {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = {};
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+      const response = await fetch(
+        "https://crudauthbackend.glitch.me/api/auth/login",
+        {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "content-type": "application/json",
+          },
+        }
+      );
+      const json = await response.json();
+      enqueueSnackbar({
+        message: json.message,
+        variant: response.ok ? "success" : "error",
+      });
+      if (response.ok) {
+        localStorage.setItem("authToken", json.authToken);
+        navigate("/");
       }
-    );
-    const json = await response.json();
-    enqueueSnackbar({
-      message: json.message,
-      variant: response.ok ? "success" : "error",
-    });
-    if (response.ok) {
-      localStorage.setItem("authToken", json.authToken);
-      navigate("/");
+    } catch (error) {
+      console.log(error.message);
+      console.error(error);
     }
-    console.log(json);
   };
   return (
     <div className="my-40 respPx20">

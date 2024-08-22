@@ -5,32 +5,40 @@ import { useNavigate } from "react-router-dom";
 const Signup = () => {
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = {};
-    formData.forEach((value, key) => {
-      data[key] = value;
-    });
-    if (data.password !== data.confirmPassword) {
-      enqueueSnackbar({ message: "Passwords Does'nt Match", variant: "error" });
-      return;
-    }
-    const response = await fetch(
-      "https://crudauthbackend.glitch.me/api/auth/register",
-      {
-        method: "POST",
-        body: JSON.stringify({ email: data.email, password: data.password }),
-        headers: {
-          "content-type": "application/json",
-        },
+    try {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = {};
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+      if (data.password !== data.confirmPassword) {
+        enqueueSnackbar({
+          message: "Passwords Does'nt Match",
+          variant: "error",
+        });
+        return;
       }
-    );
-    const json = await response.json();
-    enqueueSnackbar({
-      message: json.message,
-      variant: response.ok ? "success" : "error",
-    });
-    if (response.ok) navigate("/login");
+      const response = await fetch(
+        "https://crudauthbackend.glitch.me/api/auth/register",
+        {
+          method: "POST",
+          body: JSON.stringify({ email: data.email, password: data.password }),
+          headers: {
+            "content-type": "application/json",
+          },
+        }
+      );
+      const json = await response.json();
+      enqueueSnackbar({
+        message: json.message,
+        variant: response.ok ? "success" : "error",
+      });
+      if (response.ok) navigate("/login");
+    } catch (error) {
+      console.log(error.message);
+      console.error(error);
+    }
   };
   return (
     <div className="my-20 respPx20">
