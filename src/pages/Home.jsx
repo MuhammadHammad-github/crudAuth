@@ -75,21 +75,27 @@ const Home = () => {
     navigate("/login");
   };
   const deleteAccount = async () => {
-    const response = await fetch(
-      "https://crudauthbackend.glitch.me/api/auth/deleteUser",
-      {
-        headers: {
-          "content-type": "application/json",
-          id: user._id,
-        },
-      }
-    );
-    const json = await response.json();
-    enqueueSnackbar({
-      message: json.message,
-      variant: response.ok ? "success" : "error",
-    });
-    if (response.ok) navigate("/login");
+    try {
+      const response = await fetch(
+        "https://crudauthbackend.glitch.me/api/auth/deleteUser",
+        {
+          method: "delete",
+          headers: {
+            "content-type": "application/json",
+            id: user._id,
+          },
+        }
+      );
+      const json = await response.json();
+      enqueueSnackbar({
+        message: json.message,
+        variant: response.ok ? "success" : "error",
+      });
+      if (response.ok) navigate("/login");
+    } catch (error) {
+      console.log(error.message);
+      console.error(error);
+    }
   };
   return (
     <div className="min-h-screen flex items-center justify-center">
