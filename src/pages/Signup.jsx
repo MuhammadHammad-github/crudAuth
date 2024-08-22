@@ -15,7 +15,7 @@ const Signup = () => {
       enqueueSnackbar({ message: "Passwords Does'nt Match", variant: "error" });
       return;
     }
-    const response = await fetch("http://localhost:3000/api/auth/register", {
+    const response = await fetch("https://crudauthbackend.glitch.me/", {
       method: "POST",
       body: JSON.stringify({ email: data.email, password: data.password }),
       headers: {

@@ -11,7 +11,7 @@ const Login = () => {
     formData.forEach((value, key) => {
       data[key] = value;
     });
-    const response = await fetch("http://localhost:3000/api/auth/login", {
+    const response = await fetch("https://crudauthbackend.glitch.me/", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
