@@ -91,7 +91,10 @@ const Home = () => {
         message: json.message,
         variant: response.ok ? "success" : "error",
       });
-      if (response.ok) navigate("/login");
+      if (response.ok) {
+        localStorage.removeItem("authToken");
+        navigate("/login");
+      }
     } catch (error) {
       console.log(error.message);
       console.error(error);
